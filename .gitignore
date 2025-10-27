@@ -79,6 +79,7 @@ downloads/
 eggs/
 .eggs/
 lib/
+!apps/frontend/src/lib/
 lib64/
 parts/
 sdist/
@@ -154,6 +155,7 @@ apps/frontend/dist/
 
 # Modelos locais (se houver)
 models/
+!apps/frontend/src/models/
 *.model
 
 # Audio outputs (gerados pela API TTS)
