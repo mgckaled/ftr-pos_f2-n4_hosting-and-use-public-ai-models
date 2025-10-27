@@ -1,0 +1,147 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "description": "Configurações profissionais para projeto AI Stack TypeScript - Monorepo",
+
+  "permissions": {
+    "allow": [
+      "mcp__context7__get-library-docs",
+      "mcp__context7__resolve-library-id",
+      "mcp__ide__getDiagnostics",
+      "mcp__ide__executeCode"
+    ],
+    "deny": [],
+    "ask": []
+  },
+
+  "preferences": {
+    "language": "typescript",
+    "packageManager": "pnpm",
+    "testFramework": "vitest",
+    "linter": "eslint",
+    "formatter": "prettier",
+    "architecture": "clean-architecture",
+    "commitConvention": "conventional-commits",
+    "python": {
+      "packageManager": "uv",
+      "linter": "ruff",
+      "formatter": "ruff",
+      "testFramework": "pytest",
+      "typeChecker": "mypy",
+      "notes": "Ruff substitui pylint, black, isort, flake8 em uma única ferramenta"
+    }
+  },
+
+  "project": {
+    "type": "monorepo",
+    "structure": "apps/",
+    "workspaces": [
+      "apps/frontend",
+      "apps/translation-api",
+      "apps/tts-api"
+    ],
+    "notes": "Não usar pasta packages/ - Importar types diretamente entre workspaces"
+  },
+
+  "codeQuality": {
+    "typeSafety": {
+      "enforceStrict": true,
+      "noImplicitAny": true,
+      "validateRuntimeTypes": true,
+      "useZodSchemas": true
+    },
+    "testing": {
+      "minCoverage": 80,
+      "requireTests": true,
+      "testPattern": "**/*.test.ts"
+    },
+    "linting": {
+      "autoFix": true,
+      "maxWarnings": 0,
+      "ignorePatterns": ["dist/", "node_modules/", "*.config.ts"]
+    },
+    "python": {
+      "ruff": {
+        "lineLength": 88,
+        "targetVersion": "py311",
+        "select": ["E", "F", "I", "B", "UP", "SIM", "PL"],
+        "ignore": ["E501"],
+        "autoFix": true
+      },
+      "testing": {
+        "minCoverage": 80,
+        "requireTests": true,
+        "testPattern": "test_*.py"
+      }
+    }
+  },
+
+  "ai": {
+    "models": {
+      "frontend": {
+        "imageCaptioning": "Xenova/vit-gpt2-image-captioning",
+        "quantization": "q8"
+      },
+      "backend": {
+        "translation": "Xenova/nllb-200-distilled-600M",
+        "tts": "suno/bark"
+      }
+    },
+    "cacheDir": "~/.cache/huggingface/"
+  },
+
+  "documentation": {
+    "autoGenerateJSDoc": true,
+    "requireTypeDefinitions": true,
+    "updateReadmeOnChange": false,
+    "markdown": {
+      "enforcePortuguese": true,
+      "lintRules": "all",
+      "maxLineLength": 120
+    }
+  },
+
+  "git": {
+    "commitPrefix": true,
+    "branchNamingConvention": "feature/{issue}-{description}",
+    "requireLinearHistory": true,
+    "protectedBranches": ["main", "develop"]
+  },
+
+  "docker": {
+    "multiStageBuild": true,
+    "baseImages": {
+      "node": "node:20-alpine",
+      "python": "python:3.11-slim"
+    }
+  },
+
+  "behavior": {
+    "alwaysUseContext7": true,
+    "preferTypeScriptOverJavaScript": true,
+    "explainComplexCode": true,
+    "suggestRefactoring": false,
+    "createTestsAutomatically": false
+  },
+
+  "paths": {
+    "documentation": ".claude/",
+    "tests": "tests/",
+    "config": "config/",
+    "output": "dist/"
+  },
+
+  "excludeFromContext": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.venv/**",
+    "**/__pycache__/**",
+    "**/.pytest_cache/**",
+    "**/coverage/**",
+    "**/*.log",
+    "**/.env",
+    "**/.env.*",
+    "**/pnpm-lock.yaml",
+    "**/package-lock.json",
+    "**/yarn.lock"
+  ]
+}
