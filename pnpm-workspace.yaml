@@ -1,0 +1,6 @@
+# pnpm Workspace Configuration
+# Monorepo: Hospedagem e uso de modelos públicos de IA
+
+packages:
+  # Apps do monorepo
+  - 'apps/*'

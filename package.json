@@ -1,0 +1,36 @@
+{
+  "name": "@ai-stack/root",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo: Hospedagem e uso de modelos públicos de IA (Rocketseat FTR - Nível 4)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/f2_n4_hosting-and-use-public-ai-models"
+  },
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "dev:frontend": "pnpm --filter @ai-stack/frontend dev",
+    "dev:translation": "pnpm --filter @ai-stack/translation-api dev",
+    "build:frontend": "pnpm --filter @ai-stack/frontend build",
+    "build:translation": "pnpm --filter @ai-stack/translation-api build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "type-check": "pnpm -r type-check",
+    "clean": "pnpm -r exec rm -rf dist node_modules",
+    "docker:up": "docker-compose -f docker/docker-compose.yml up",
+    "docker:down": "docker-compose -f docker/docker-compose.yml down",
+    "docker:build": "docker-compose -f docker/docker-compose.yml build"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.12.1"
+}

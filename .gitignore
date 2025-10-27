@@ -1,0 +1,314 @@
+# ============================================
+# AI Stack Monorepo - .gitignore
+# ============================================
+# Projeto: Hospedagem e uso de modelos públicos de IA
+# Stack: React + Node.js + Python (Flask)
+# Package Managers: pnpm, uv
+# ============================================
+
+# ============================================
+# Node.js / JavaScript / TypeScript
+# ============================================
+
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Cache
+.npm
+.eslintcache
+.tsbuildinfo
+*.tsbuildinfo
+.cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Package manager files (lock files estão no repo)
+# Mantemos os lock files para garantir reprodutibilidade
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# ============================================
+# Python
+# ============================================
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# UV (Python package manager)
+.uv/
+uv.lock
+
+# ============================================
+# Vite / Frontend
+# ============================================
+
+# Vite cache
+.vite/
+*.local
+
+# Production build
+apps/frontend/dist/
+
+# ============================================
+# AI Models & Cache
+# ============================================
+
+# Hugging Face cache (pode ser gigante!)
+.cache/
+.huggingface/
+*.onnx
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# Modelos locais (se houver)
+models/
+*.model
+
+# Audio outputs (gerados pela API TTS)
+apps/tts-api/output/
+*.wav
+*.mp3
+*.ogg
+
+# ============================================
+# IDEs / Editors
+# ============================================
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs (WebStorm, PyCharm, IntelliJ)
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# Operating System
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# Docker
+# ============================================
+
+# Docker volumes
+docker-volumes/
+*.dockerignore.bak
+
+# ============================================
+# Git
+# ============================================
+
+# Backup files
+*.orig
+*.bak
+*.backup
+
+# ============================================
+# Misc
+# ============================================
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Archives
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+
+# Certificates (NUNCA commitar!)
+*.pem
+*.key
+*.cert
+*.crt
+*.csr
+
+# Secrets
+secrets/
+.secrets/
+*.secret
+
+# ============================================
+# Project Specific
+# ============================================
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# Benchmark results
+benchmark/
+*.benchmark
+
+# Database files (se usar SQLite local)
+*.db
+*.sqlite
+*.sqlite3
+
+# Personal notes
+notes.md
+
+# ============================================
+# Claude Code
+# ============================================
+
+# Manter documentação pessoal do projeto
+!.claude/
