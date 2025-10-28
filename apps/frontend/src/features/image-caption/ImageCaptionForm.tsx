@@ -15,6 +15,7 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [urlError, setUrlError] = useState<string>('');
+  const [imageLoadError, setImageLoadError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Cleanup blob URL when component unmounts or file changes
@@ -37,6 +38,7 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
       setSelectedFile(file);
       setImageUrl(''); // Clear URL input
       setUrlError(''); // Clear URL error
+      setImageLoadError(false); // Clear image load error
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
     }
@@ -45,26 +47,29 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setImageUrl(value);
+    setImageLoadError(false);
 
     // Validate URL
     if (value) {
       try {
         new URL(value);
         setUrlError(''); // Valid URL
+
+        // Clear file preview if URL is entered
+        if (selectedFile) {
+          setSelectedFile(null);
+          if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+          }
+          setPreviewUrl('');
+        }
       } catch {
         setUrlError('Please enter a valid URL');
+        setPreviewUrl(''); // Clear preview on invalid URL
       }
     } else {
       setUrlError(''); // Empty is valid
-    }
-
-    // Clear file if URL is entered
-    if (value && selectedFile) {
-      setSelectedFile(null);
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-      setPreviewUrl('');
+      setPreviewUrl(''); // Clear preview when empty
     }
   };
 
@@ -83,7 +88,7 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
     }
   };
 
-  const hasImage = (imageUrl.trim() || previewUrl) && !urlError;
+  const hasImage = (imageUrl.trim() || previewUrl) && !urlError && !imageLoadError;
 
   return (
     <Card className="w-full max-w-2xl hover:shadow-lg">
@@ -153,9 +158,23 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
           </div>
 
           {/* Image Preview */}
-          {previewUrl && (
-            <div className="rounded-lg border overflow-hidden">
-              <img src={previewUrl} alt="Preview" className="w-full h-auto max-h-64 object-contain" />
+          {(previewUrl || (imageUrl && !urlError)) && (
+            <div className="rounded-lg border overflow-hidden bg-slate-50 dark:bg-slate-900">
+              <img
+                src={previewUrl || imageUrl}
+                alt="Preview"
+                className="w-full h-auto max-h-64 object-contain"
+                onError={() => setImageLoadError(true)}
+                onLoad={() => setImageLoadError(false)}
+              />
+            </div>
+          )}
+
+          {/* Image Load Error */}
+          {imageLoadError && imageUrl && !urlError && (
+            <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm animate-in fade-in slide-in-from-top-1 duration-200">
+              <AlertCircle className="h-4 w-4 flex-shrink-0" />
+              <span>Failed to load image from URL</span>
             </div>
           )}
 
