@@ -22,7 +22,7 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
   };
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full max-w-2xl hover:shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
       <CardHeader>
         <CardTitle>Generated Caption</CardTitle>
       </CardHeader>

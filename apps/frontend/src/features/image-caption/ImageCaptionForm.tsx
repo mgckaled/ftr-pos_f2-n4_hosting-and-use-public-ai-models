@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link as LinkIcon, Upload } from 'lucide-react';
+import { Link as LinkIcon, Upload, AlertCircle } from 'lucide-react';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 interface ImageCaptionFormProps {
@@ -14,6 +14,7 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
   const [imageUrl, setImageUrl] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [urlError, setUrlError] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Cleanup blob URL when component unmounts or file changes
@@ -35,15 +36,30 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
 
       setSelectedFile(file);
       setImageUrl(''); // Clear URL input
+      setUrlError(''); // Clear URL error
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
     }
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImageUrl(e.target.value);
+    const value = e.target.value;
+    setImageUrl(value);
+
+    // Validate URL
+    if (value) {
+      try {
+        new URL(value);
+        setUrlError(''); // Valid URL
+      } catch {
+        setUrlError('Please enter a valid URL');
+      }
+    } else {
+      setUrlError(''); // Empty is valid
+    }
+
     // Clear file if URL is entered
-    if (e.target.value && selectedFile) {
+    if (value && selectedFile) {
       setSelectedFile(null);
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
@@ -54,6 +70,12 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    // Don't submit if there's a URL error
+    if (urlError) {
+      return;
+    }
+
     if (previewUrl) {
       onSubmit(previewUrl);
     } else if (imageUrl.trim()) {
@@ -61,10 +83,10 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
     }
   };
 
-  const hasImage = imageUrl.trim() || previewUrl;
+  const hasImage = (imageUrl.trim() || previewUrl) && !urlError;
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full max-w-2xl hover:shadow-lg">
       <CardHeader>
         <CardTitle>Generate Image Caption</CardTitle>
       </CardHeader>
@@ -78,12 +100,19 @@ export function ImageCaptionForm({ onSubmit, isLoading }: ImageCaptionFormProps)
             </Label>
             <Input
               id="imageUrl"
-              type="url"
+              type="text"
               value={imageUrl}
               onChange={handleUrlChange}
               placeholder="https://example.com/image.jpg"
               disabled={isLoading}
+              className={urlError ? 'border-red-500 focus-visible:ring-red-500' : ''}
             />
+            {urlError && (
+              <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm animate-in fade-in slide-in-from-top-1 duration-200">
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                <span>{urlError}</span>
+              </div>
+            )}
           </div>
 
           {/* Divider */}
