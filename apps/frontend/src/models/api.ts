@@ -16,8 +16,13 @@ export async function generateCaption(
   const captioner = await ImageCaptioner.getInstance(progressCallback);
   console.log('[API] Model instance obtained, running inference...');
 
-  // Run inference
-  const result = (await captioner(validated.imageUrl)) as ImageCaptionResponse[];
+  // Run inference with enhanced generation parameters for more detailed captions
+  const result = (await captioner(validated.imageUrl, {
+    max_new_tokens: 40,      // Generate longer descriptions (default: ~20)
+    num_beams: 5,            // Use beam search for better quality
+    temperature: 0.9,        // Control randomness (lower = more focused)
+    repetition_penalty: 1.2, // Reduce repetitive words (1.0 = no penalty)
+  })) as ImageCaptionResponse[];
   console.log('[API] Inference complete, result:', result);
 
   if (!result || result.length === 0) {

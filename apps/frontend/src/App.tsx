@@ -11,14 +11,16 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-end mb-4">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="flex justify-end mb-6">
           <ModeToggle />
         </div>
 
-        <header className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2">AI Image Captioning</h1>
-          <p className="text-muted-foreground">
+        <header className="mb-12 text-center">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 bg-gradient-to-r from-violet-600 to-sky-500 bg-clip-text text-transparent">
+            AI Image Captioning
+          </h1>
+          <p className="text-muted-foreground text-base md:text-lg">
             Generate captions for images using AI (runs in your browser)
           </p>
         </header>
