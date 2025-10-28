@@ -18,6 +18,7 @@
     "@scalar/fastify-api-reference": "^1.35.6",
     "fastify": "^5.2.3",
     "fastify-type-provider-zod": "^6.1.0",
+    "wavefile": "^11.0.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {

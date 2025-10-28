@@ -9,6 +9,7 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import translateRoutes from './routes/translate.js';
+import { ttsRoutes } from './routes/tts.js';
 
 /**
  * Build and configure Fastify application
@@ -60,6 +61,10 @@ export async function buildApp() {
           description: 'Translation endpoints using AI models',
         },
         {
+          name: 'TTS',
+          description: 'Text-to-Speech endpoints using AI models',
+        },
+        {
           name: 'health',
           description: 'Health check and monitoring endpoints',
         },
@@ -90,6 +95,7 @@ export async function buildApp() {
 
   // Register routes with type provider
   await app.withTypeProvider<ZodTypeProvider>().register(translateRoutes);
+  await app.withTypeProvider<ZodTypeProvider>().register(ttsRoutes);
 
   // Custom error handler for better error messages
   app.setErrorHandler((error, request, reply) => {
