@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(uv:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./apps/frontend/.env)",
+      "Read(./apps/translation-api/.env)",
+      "Read(./secrets/**)",
+      "Read(**/.env.local)",
+      "Read(**/credentials.json)",
+      "Read(**/*.key)",
+      "Read(**/*.pem)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(**/*.onnx)",
+      "Read(**/*.bin)",
+      "Read(**/*.safetensors)",
+      "Read(**/pnpm-lock.yaml)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)"
+    ]
+  }
+}

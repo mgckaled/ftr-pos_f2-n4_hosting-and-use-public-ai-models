@@ -171,6 +171,35 @@ pnpm docker:down
 - **Monorepo**: Gerenciamento de múltiplos projetos.
 - **Containerização**: Deploy com Docker.
 
+## Segurança com Claude Code
+
+Este projeto usa Claude Code (agentic AI) com proteções de segurança
+habilitadas:
+
+- Arquivos `.env` são **bloqueados** para leitura pelo Claude Code
+- Comandos perigosos requerem **aprovação manual**
+- Use `/sandbox` para experimentos isolados
+
+### Configurar localmente
+
+1. Copie `.env.example` para `.env` em cada app:
+
+   ```bash
+   cp apps/frontend/.env.example apps/frontend/.env
+   cp apps/translation-api/.env.example apps/translation-api/.env
+   ```
+
+2. Preencha com suas configurações locais.
+3. **NUNCA** commite arquivos `.env` ou `.claude/settings.local.json`.
+
+### Comandos úteis do Claude Code
+
+- `/permissions` - Ver permissões atuais
+- `/sandbox` - Habilitar modo sandbox
+- `/reset` - Resetar permissões
+
+Para mais detalhes, veja `.claude/plano_seguranca_claude_code.md`.
+
 ## Licença
 
 MIT.

@@ -287,6 +287,8 @@ temp/
 secrets/
 .secrets/
 *.secret
+credentials.json
+**/credentials.json
 
 # ============================================
 # Project Specific
@@ -314,3 +316,6 @@ notes.md
 
 # Manter documentação pessoal do projeto
 !.claude/
+
+# Configurações pessoais (NÃO commitar!)
+.claude/settings.local.json
