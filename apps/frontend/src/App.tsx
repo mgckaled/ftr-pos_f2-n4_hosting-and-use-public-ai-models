@@ -4,6 +4,7 @@ import { ProgressIndicator } from './features/image-caption/ProgressIndicator';
 import { CaptionResult } from './features/image-caption/CaptionResult';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { ModeToggle } from '@/components/mode-toggle';
 
 function App() {
   const { caption, isLoading, error, progress, generate, reset } = useImageCaption();
@@ -11,6 +12,10 @@ function App() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-end mb-4">
+          <ModeToggle />
+        </div>
+
         <header className="mb-8 text-center">
           <h1 className="text-4xl font-bold mb-2">AI Image Captioning</h1>
           <p className="text-muted-foreground">
