@@ -1,4 +1,5 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
+import { z } from 'zod';
 import {
   TranslationRequestSchema,
   TranslationResponseSchema,
@@ -19,7 +20,9 @@ const translateRoutes: FastifyPluginAsyncZod = async (fastify) => {
     method: 'POST',
     url: '/translate',
     schema: {
-      description: 'Translate text from one language to another',
+      summary: 'Translate text',
+      description:
+        'Translate text from one language to another using the NLLB-200 AI model (supports 200+ languages)',
       tags: ['translation'],
       body: TranslationRequestSchema,
       response: {
@@ -72,12 +75,26 @@ const translateRoutes: FastifyPluginAsyncZod = async (fastify) => {
    * GET /health
    * Health check endpoint to verify the API is running
    */
-  fastify.get('/health', async (request, reply) => {
-    return reply.code(200).send({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      service: 'translation-api',
-    });
+  fastify.get('/health', {
+    schema: {
+      summary: 'Health check',
+      description: 'Check if the Translation API service is running and healthy',
+      tags: ['health'],
+      response: {
+        200: z.object({
+          status: z.string().describe('Service status'),
+          timestamp: z.string().describe('Current server timestamp in ISO format'),
+          service: z.string().describe('Service name'),
+        }),
+      },
+    },
+    handler: async (request, reply) => {
+      return reply.code(200).send({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        service: 'translation-api',
+      });
+    },
   });
 };
 

@@ -8,9 +8,18 @@ export const TranslationRequestSchema = z.object({
   text: z
     .string()
     .min(1, 'Text cannot be empty')
-    .max(5000, 'Text is too long (max 5000 characters)'),
-  source_lang: z.string().length(8).default('eng_Latn'),
-  target_lang: z.string().length(8).default('por_Latn'),
+    .max(5000, 'Text is too long (max 5000 characters)')
+    .describe('Text to be translated'),
+  source_lang: z
+    .string()
+    .length(8)
+    .default('eng_Latn')
+    .describe('Source language code in NLLB format (e.g., eng_Latn for English)'),
+  target_lang: z
+    .string()
+    .length(8)
+    .default('por_Latn')
+    .describe('Target language code in NLLB format (e.g., por_Latn for Portuguese)'),
 });
 
 /**
@@ -18,10 +27,10 @@ export const TranslationRequestSchema = z.object({
  * Defines the structure of successful translation responses
  */
 export const TranslationResponseSchema = z.object({
-  original: z.string(),
-  translation: z.string(),
-  source_lang: z.string(),
-  target_lang: z.string(),
+  original: z.string().describe('Original input text'),
+  translation: z.string().describe('Translated text'),
+  source_lang: z.string().describe('Source language code used'),
+  target_lang: z.string().describe('Target language code used'),
 });
 
 /**
@@ -29,9 +38,9 @@ export const TranslationResponseSchema = z.object({
  * Defines the structure of error responses
  */
 export const ErrorResponseSchema = z.object({
-  error: z.string(),
-  message: z.string(),
-  statusCode: z.number(),
+  error: z.string().describe('Error type'),
+  message: z.string().describe('Detailed error message'),
+  statusCode: z.number().describe('HTTP status code'),
 });
 
 // Type inference from schemas

@@ -1,6 +1,9 @@
-import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import fastifySwagger from '@fastify/swagger';
+import fastifyScalar from '@scalar/fastify-api-reference';
+import Fastify from 'fastify';
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
@@ -31,6 +34,52 @@ export async function buildApp() {
   // Set Zod as the validator and serializer compiler
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
+
+  // Register Swagger (generates OpenAPI specification)
+  await app.register(fastifySwagger, {
+    openapi: {
+      info: {
+        title: 'Translation API',
+        description:
+          'AI-powered translation API using NLLB-200 model from Hugging Face Transformers',
+        version: '0.1.0',
+        contact: {
+          name: 'API Support',
+          url: 'https://github.com/your-repo',
+        },
+      },
+      servers: [
+        {
+          url: 'http://localhost:3000',
+          description: 'Development server',
+        },
+      ],
+      tags: [
+        {
+          name: 'translation',
+          description: 'Translation endpoints using AI models',
+        },
+        {
+          name: 'health',
+          description: 'Health check and monitoring endpoints',
+        },
+      ],
+    },
+    transform: jsonSchemaTransform,
+  });
+
+  // Register Scalar API Reference (modern documentation UI)
+  await app.register(fastifyScalar, {
+    routePrefix: '/reference',
+    configuration: {
+      theme: 'purple',
+      layout: 'modern',
+      defaultHttpClient: {
+        targetKey: 'js',
+        clientKey: 'fetch',
+      },
+    },
+  });
 
   // Register CORS plugin
   await app.register(cors, {
