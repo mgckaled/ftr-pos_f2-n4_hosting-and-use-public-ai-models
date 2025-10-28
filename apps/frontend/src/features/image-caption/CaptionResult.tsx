@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Check, Copy, Languages, Loader2, AlertCircle } from 'lucide-react';
+import { Check, Copy, Languages, Loader2, AlertCircle, Volume2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 
 interface CaptionResultProps {
   caption: string;
@@ -14,6 +15,7 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
   const [copied, setCopied] = useState(false);
   const [copiedTranslation, setCopiedTranslation] = useState(false);
   const { translation, isTranslating, error, translate, reset: resetTranslation } = useTranslation();
+  const { isPlaying, isLoading: isTTSLoading, error: ttsError, speak, stop } = useTextToSpeech();
 
   const handleCopy = async () => {
     try {
@@ -41,7 +43,17 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
 
   const handleReset = () => {
     resetTranslation();
+    stop();
     onReset();
+  };
+
+  const handleSpeak = () => {
+    if (!translation) return;
+    if (isPlaying) {
+      stop();
+    } else {
+      speak(translation, 'pt');
+    }
   };
 
   return (
@@ -73,6 +85,14 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
           <Alert variant="destructive" className="animate-in fade-in slide-in-from-top-2 duration-200">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {/* TTS Error */}
+        {ttsError && (
+          <Alert variant="destructive" className="animate-in fade-in slide-in-from-top-2 duration-200">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{ttsError}</AlertDescription>
           </Alert>
         )}
       </CardContent>
@@ -121,24 +141,51 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
           </Button>
 
           {translation && (
-            <Button
-              onClick={handleCopyTranslation}
-              variant="secondary"
-              size="lg"
-              className="flex-1 rounded-xl font-medium cursor-pointer"
-            >
-              {copiedTranslation ? (
-                <>
-                  <Check className="mr-2 h-4 w-4" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="mr-2 h-4 w-4" />
-                  Copy Translation
-                </>
-              )}
-            </Button>
+            <>
+              <Button
+                onClick={handleCopyTranslation}
+                variant="secondary"
+                size="lg"
+                className="flex-1 rounded-xl font-medium cursor-pointer"
+              >
+                {copiedTranslation ? (
+                  <>
+                    <Check className="mr-2 h-4 w-4" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Copy Translation
+                  </>
+                )}
+              </Button>
+
+              <Button
+                onClick={handleSpeak}
+                disabled={isTTSLoading}
+                variant="secondary"
+                size="lg"
+                className="flex-1 rounded-xl font-medium cursor-pointer"
+              >
+                {isTTSLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Loading...
+                  </>
+                ) : isPlaying ? (
+                  <>
+                    <Volume2 className="mr-2 h-4 w-4 text-primary" />
+                    Playing...
+                  </>
+                ) : (
+                  <>
+                    <Volume2 className="mr-2 h-4 w-4" />
+                    Listen
+                  </>
+                )}
+              </Button>
+            </>
           )}
 
           <Button
