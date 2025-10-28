@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { ProgressCallback as TransformersProgressCallback } from '@huggingface/transformers';
 
 export const ImageCaptionRequestSchema = z.object({
   imageUrl: z.string().url('URL da imagem inválida'),
@@ -12,12 +13,5 @@ export const ImageCaptionResponseSchema = z.object({
 export type ImageCaptionRequest = z.infer<typeof ImageCaptionRequestSchema>;
 export type ImageCaptionResponse = z.infer<typeof ImageCaptionResponseSchema>;
 
-export interface ProgressCallback {
-  (progress: {
-    status: 'progress' | 'done' | 'error';
-    file?: string;
-    progress?: number;
-    loaded?: number;
-    total?: number;
-  }): void;
-}
+// Re-export the correct type from Transformers.js
+export type ProgressCallback = TransformersProgressCallback;

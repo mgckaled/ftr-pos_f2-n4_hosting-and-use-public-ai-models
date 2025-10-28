@@ -1,13 +1,21 @@
-import { pipeline, Pipeline } from '@huggingface/transformers';
+import { pipeline } from '@huggingface/transformers';
 import type { ProgressCallback } from './types';
 
+// Type-safe pipeline interface
+type ImageToTextPipeline = (
+  imageUrl: string
+) => Promise<Array<{ generated_text: string }>>;
+
 class ImageCaptioner {
-  private static instance: Pipeline | null = null;
+  private static instance: ImageToTextPipeline | null = null;
   private static readonly MODEL = 'Xenova/vit-gpt2-image-captioning';
   private static isLoading = false;
 
-  static async getInstance(progressCallback?: ProgressCallback): Promise<Pipeline> {
+  static async getInstance(
+    progressCallback?: ProgressCallback
+  ): Promise<ImageToTextPipeline> {
     if (this.instance) {
+      console.log('[ImageCaptioner] Using cached model instance');
       return this.instance;
     }
 
@@ -19,17 +27,23 @@ class ImageCaptioner {
       this.isLoading = true;
       console.log('[ImageCaptioner] Loading model...');
 
-      this.instance = await pipeline('image-to-text', this.MODEL, {
+      // Try WebGPU first, fallback to WASM automatically
+      const pipelineInstance = await pipeline('image-to-text', this.MODEL, {
         dtype: 'q8',
-        device: 'webgpu',
         progress_callback: progressCallback,
       });
 
-      console.log('[ImageCaptioner] Model loaded!');
+      // Type assertion to our interface (runtime behavior is correct)
+      this.instance = pipelineInstance as unknown as ImageToTextPipeline;
+
+      console.log('[ImageCaptioner] Model loaded successfully!');
       return this.instance;
     } catch (error) {
       console.error('[ImageCaptioner] Failed to load model:', error);
-      throw error;
+      this.instance = null;
+      throw new Error(
+        `Failed to load AI model: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       this.isLoading = false;
     }
