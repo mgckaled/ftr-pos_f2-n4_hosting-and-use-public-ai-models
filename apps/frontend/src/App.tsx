@@ -1,10 +1,10 @@
-import { useImageCaption } from './hooks/useImageCaption';
-import { ImageCaptionForm } from './features/image-caption/ImageCaptionForm';
-import { ProgressIndicator } from './features/image-caption/ProgressIndicator';
-import { CaptionResult } from './features/image-caption/CaptionResult';
+import { ModeToggle } from '@/components/mode-toggle';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-import { ModeToggle } from '@/components/mode-toggle';
+import { CaptionResult } from './features/image-caption/CaptionResult';
+import { ImageCaptionForm } from './features/image-caption/ImageCaptionForm';
+import { ProgressIndicator } from './features/image-caption/ProgressIndicator';
+import { useImageCaption } from './hooks/useImageCaption';
 
 function App() {
   const { caption, isLoading, error, progress, generate, reset } = useImageCaption();

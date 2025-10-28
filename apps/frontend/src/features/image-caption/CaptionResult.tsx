@@ -13,10 +13,12 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
         <CardTitle>Generated Caption</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-lg">{caption}</p>
+        <div className="p-4 bg-muted rounded-lg">
+          <p className="text-lg">{caption}</p>
+        </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={onReset} variant="outline" className="w-full">
+        <Button onClick={onReset} variant="outline" size="lg" className="w-full rounded-xl font-medium cursor-pointer">
           Generate Another
         </Button>
       </CardFooter>

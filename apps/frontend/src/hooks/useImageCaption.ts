@@ -3,6 +3,7 @@ import { generateCaption } from '../models/api';
 
 interface UseImageCaptionReturn {
   caption: string;
+  imageUrl: string;
   isLoading: boolean;
   error: string | null;
   progress: number;
@@ -12,6 +13,7 @@ interface UseImageCaptionReturn {
 
 export function useImageCaption(): UseImageCaptionReturn {
   const [caption, setCaption] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
@@ -21,6 +23,7 @@ export function useImageCaption(): UseImageCaptionReturn {
       setIsLoading(true);
       setError(null);
       setProgress(0);
+      setImageUrl(imageUrl);
 
       const result = await generateCaption(imageUrl, (progressData) => {
         if (progressData.status === 'progress' && progressData.progress) {
@@ -40,12 +43,14 @@ export function useImageCaption(): UseImageCaptionReturn {
 
   const reset = useCallback(() => {
     setCaption('');
+    setImageUrl('');
     setError(null);
     setProgress(0);
   }, []);
 
   return {
     caption,
+    imageUrl,
     isLoading,
     error,
     progress,
