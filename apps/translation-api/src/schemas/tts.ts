@@ -18,5 +18,10 @@ export const textToSpeechResponseSchema = z.object({
   duration: z.number().describe('Audio duration in seconds')
 })
 
+export const textToSpeechErrorSchema = z.object({
+  error: z.string(),
+  message: z.string()
+})
+
 export type TextToSpeechRequest = z.infer<typeof textToSpeechRequestSchema>
 export type TextToSpeechResponse = z.infer<typeof textToSpeechResponseSchema>

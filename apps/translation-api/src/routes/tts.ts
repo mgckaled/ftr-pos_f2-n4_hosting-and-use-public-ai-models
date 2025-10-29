@@ -2,7 +2,8 @@ import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   textToSpeechRequestSchema,
-  textToSpeechResponseSchema
+  textToSpeechResponseSchema,
+  textToSpeechErrorSchema
 } from '../schemas/tts.js'
 import { TextToSpeech } from '../models/TextToSpeech.js'
 
@@ -19,13 +20,7 @@ export async function ttsRoutes(app: FastifyInstance) {
         body: textToSpeechRequestSchema,
         response: {
           200: textToSpeechResponseSchema,
-          500: {
-            type: 'object',
-            properties: {
-              error: { type: 'string' },
-              message: { type: 'string' }
-            }
-          }
+          500: textToSpeechErrorSchema
         }
       }
     },

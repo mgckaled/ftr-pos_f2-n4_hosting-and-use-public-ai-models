@@ -1,4 +1,4 @@
-import { TextToSpeechRequest, TextToSpeechResponse } from '@/types/tts'
+import type { TextToSpeechRequest, TextToSpeechResponse } from '@/types/tts'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
