@@ -1,7 +1,4 @@
 {
-  "$schema": "https://claude.ai/schemas/settings.json",
-  "description": "Configurações profissionais para projeto AI Stack TypeScript - Monorepo",
-
   "permissions": {
     "allow": [
       "mcp__context7__get-library-docs",
@@ -12,7 +9,8 @@
     "deny": [],
     "ask": []
   },
-
+  "spinnerTipsEnabled": false,
+  "description": "Configurações profissionais para projeto AI Stack TypeScript - Monorepo",
   "preferences": {
     "language": "typescript",
     "packageManager": "pnpm",
@@ -30,7 +28,6 @@
       "notes": "Ruff substitui pylint, black, isort, flake8 em uma única ferramenta"
     }
   },
-
   "project": {
     "type": "monorepo",
     "structure": "apps/",
@@ -41,7 +38,6 @@
     ],
     "notes": "Não usar pasta packages/ - Importar types diretamente entre workspaces"
   },
-
   "codeQuality": {
     "typeSafety": {
       "enforceStrict": true,
@@ -57,14 +53,28 @@
     "linting": {
       "autoFix": true,
       "maxWarnings": 0,
-      "ignorePatterns": ["dist/", "node_modules/", "*.config.ts"]
+      "ignorePatterns": [
+        "dist/",
+        "node_modules/",
+        "*.config.ts"
+      ]
     },
     "python": {
       "ruff": {
         "lineLength": 88,
         "targetVersion": "py311",
-        "select": ["E", "F", "I", "B", "UP", "SIM", "PL"],
-        "ignore": ["E501"],
+        "select": [
+          "E",
+          "F",
+          "I",
+          "B",
+          "UP",
+          "SIM",
+          "PL"
+        ],
+        "ignore": [
+          "E501"
+        ],
         "autoFix": true
       },
       "testing": {
@@ -74,7 +84,6 @@
       }
     }
   },
-
   "ai": {
     "models": {
       "frontend": {
@@ -88,7 +97,6 @@
     },
     "cacheDir": "~/.cache/huggingface/"
   },
-
   "documentation": {
     "autoGenerateJSDoc": true,
     "requireTypeDefinitions": true,
@@ -99,14 +107,15 @@
       "maxLineLength": 120
     }
   },
-
   "git": {
     "commitPrefix": true,
     "branchNamingConvention": "feature/{issue}-{description}",
     "requireLinearHistory": true,
-    "protectedBranches": ["main", "develop"]
+    "protectedBranches": [
+      "main",
+      "develop"
+    ]
   },
-
   "docker": {
     "multiStageBuild": true,
     "baseImages": {
@@ -114,7 +123,6 @@
       "python": "python:3.11-slim"
     }
   },
-
   "behavior": {
     "alwaysUseContext7": true,
     "preferTypeScriptOverJavaScript": true,
@@ -122,14 +130,12 @@
     "suggestRefactoring": false,
     "createTestsAutomatically": false
   },
-
   "paths": {
     "documentation": ".claude/",
     "tests": "tests/",
     "config": "config/",
     "output": "dist/"
   },
-
   "excludeFromContext": [
     "**/node_modules/**",
     "**/dist/**",
@@ -143,5 +149,6 @@
     "**/pnpm-lock.yaml",
     "**/package-lock.json",
     "**/yarn.lock"
-  ]
+  ],
+  "outputStyle": "default"
 }

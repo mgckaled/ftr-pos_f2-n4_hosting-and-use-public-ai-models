@@ -7,7 +7,7 @@ import { ProgressIndicator } from './features/image-caption/ProgressIndicator';
 import { useImageCaption } from './hooks/useImageCaption';
 
 function App() {
-  const { caption, isLoading, error, progress, generate, reset } = useImageCaption();
+  const { caption, isLoading, error, progress, stage, generate, reset } = useImageCaption();
 
   return (
     <div className="min-h-screen bg-background">
@@ -28,7 +28,7 @@ function App() {
         <main className="flex flex-col items-center gap-6">
           <ImageCaptionForm onSubmit={generate} isLoading={isLoading} />
 
-          {isLoading && <ProgressIndicator progress={progress} />}
+          {isLoading && <ProgressIndicator progress={progress} stage={stage} />}
 
           {error && (
             <Alert variant="destructive" className="w-full max-w-2xl">

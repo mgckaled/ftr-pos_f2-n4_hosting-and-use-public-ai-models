@@ -3,7 +3,13 @@ import type { ProgressCallback } from './types';
 
 // Type-safe pipeline interface
 type ImageToTextPipeline = (
-  imageUrl: string
+  imageUrl: string,
+  options?: {
+    max_new_tokens?: number;
+    num_beams?: number;
+    temperature?: number;
+    repetition_penalty?: number;
+  }
 ) => Promise<Array<{ generated_text: string }>>;
 
 class ImageCaptioner {

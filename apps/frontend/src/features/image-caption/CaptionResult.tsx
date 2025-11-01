@@ -65,8 +65,21 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
         {/* Original Caption (English) */}
         <div>
           <p className="text-sm font-medium text-muted-foreground mb-2">English</p>
-          <div className="p-4 bg-muted rounded-lg">
-            <p className="text-lg">{caption}</p>
+          <div className="relative p-4 bg-muted rounded-lg">
+            <Button
+              onClick={handleCopy}
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 h-7 w-7 cursor-pointer hover:bg-background/80"
+              title="Copy caption"
+            >
+              {copied ? (
+                <Check className="h-3.5 w-3.5" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </Button>
+            <p className="text-lg pr-8">{caption}</p>
           </div>
         </div>
 
@@ -74,8 +87,21 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
         {translation && (
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">
             <p className="text-sm font-medium text-muted-foreground mb-2">Português</p>
-            <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
-              <p className="text-lg">{translation}</p>
+            <div className="relative p-4 bg-primary/10 rounded-lg border border-primary/20">
+              <Button
+                onClick={handleCopyTranslation}
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 right-2 h-7 w-7 cursor-pointer hover:bg-background/80"
+                title="Copy translation"
+              >
+                {copiedTranslation ? (
+                  <Check className="h-3.5 w-3.5" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+              </Button>
+              <p className="text-lg pr-8">{translation}</p>
             </div>
           </div>
         )}
@@ -121,71 +147,31 @@ export function CaptionResult({ caption, onReset }: CaptionResultProps) {
 
         {/* Action Buttons Row */}
         <div className="flex gap-2 w-full">
-          <Button
-            onClick={handleCopy}
-            variant="secondary"
-            size="lg"
-            className="flex-1 rounded-xl font-medium cursor-pointer"
-          >
-            {copied ? (
-              <>
-                <Check className="mr-2 h-4 w-4" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="mr-2 h-4 w-4" />
-                Copy Caption
-              </>
-            )}
-          </Button>
-
           {translation && (
-            <>
-              <Button
-                onClick={handleCopyTranslation}
-                variant="secondary"
-                size="lg"
-                className="flex-1 rounded-xl font-medium cursor-pointer"
-              >
-                {copiedTranslation ? (
-                  <>
-                    <Check className="mr-2 h-4 w-4" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="mr-2 h-4 w-4" />
-                    Copy Translation
-                  </>
-                )}
-              </Button>
-
-              <Button
-                onClick={handleSpeak}
-                disabled={isTTSLoading}
-                variant="secondary"
-                size="lg"
-                className="flex-1 rounded-xl font-medium cursor-pointer"
-              >
-                {isTTSLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Loading...
-                  </>
-                ) : isPlaying ? (
-                  <>
-                    <Volume2 className="mr-2 h-4 w-4 text-primary" />
-                    Playing...
-                  </>
-                ) : (
-                  <>
-                    <Volume2 className="mr-2 h-4 w-4" />
-                    Listen
-                  </>
-                )}
-              </Button>
-            </>
+            <Button
+              onClick={handleSpeak}
+              disabled={isTTSLoading}
+              variant="secondary"
+              size="lg"
+              className="flex-1 rounded-xl font-medium cursor-pointer"
+            >
+              {isTTSLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Loading...
+                </>
+              ) : isPlaying ? (
+                <>
+                  <Volume2 className="mr-2 h-4 w-4 text-primary" />
+                  Playing...
+                </>
+              ) : (
+                <>
+                  <Volume2 className="mr-2 h-4 w-4" />
+                  Listen
+                </>
+              )}
+            </Button>
           )}
 
           <Button
