@@ -17,7 +17,8 @@ COPY apps/translation-api ./apps/translation-api
 
 # Build
 WORKDIR /app/apps/translation-api
-RUN pnpm tsc || true
+RUN /app/node_modules/.bin/tsc --skipLibCheck --noEmitOnError false || true && \
+    if [ ! -d "dist" ]; then echo "ERROR: dist folder not created after tsc"; exit 1; fi
 
 # Production stage
 FROM node:20-slim
@@ -26,11 +27,16 @@ WORKDIR /app/deploy
 
 RUN corepack enable pnpm
 
-# Copy only built app using pnpm deploy
+# Copy only built app
 COPY --from=builder /app/apps/translation-api ./
 
-# Install production dependencies only for this workspace
-RUN pnpm install --prod --no-optional && \
+# Remove "type": "module" from package.json for CommonJS compatibility
+RUN node -e "const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));delete pkg.type;fs.writeFileSync('package.json',JSON.stringify(pkg,null,2));"
+
+# Install production dependencies with build scripts enabled
+RUN pnpm config set enable-pre-post-scripts true && \
+    pnpm install --prod --ignore-scripts=false && \
+    pnpm rebuild sharp onnxruntime-node && \
     pnpm store prune && \
     rm -rf /root/.local/share/pnpm/store
 
