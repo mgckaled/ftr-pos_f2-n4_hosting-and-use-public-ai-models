@@ -3,7 +3,7 @@
 Repositório do projeto da disciplina **Hospedagem e uso de modelos públicos de IA (Nível 4)** do curso de Pós-Graduação Tech Developer 360, desenvolvido pela Faculdade de Tecnologia Rocketseat (FTR).
 
 > [!NOTE]
-> 
+>
 > [Questionário Avaliativo](./.github/docs/content/assessments/q.md)
 
 ## Objetivo
