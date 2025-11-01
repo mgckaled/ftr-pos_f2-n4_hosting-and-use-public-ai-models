@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - translation-api
+    networks:
+      - ai-stack
+
+  translation-api:
+    build:
+      context: .
+      dockerfile: apps/translation-api/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=3001
+    networks:
+      - ai-stack
+
+networks:
+  ai-stack:
+    driver: bridge
